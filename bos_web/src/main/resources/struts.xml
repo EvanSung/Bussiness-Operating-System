@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts SYSTEM "http://struts.apache.org/dtds/struts-2.3.dtd" >
+<struts>
+	<constant name="struts.devMode" value="false" />
+	
+	<package name="basicstruts2" extends="struts-default">
+		<!-- 需要进行权限控制的页面访问 -->
+		<action name="page_*_*">
+			<result type="dispatcher">/WEB-INF/pages/{1}/{2}.jsp</result>
+		</action>
+	</package>
+
+</struts>
