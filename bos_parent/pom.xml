@@ -244,10 +244,10 @@
   </build>
   
   <modules>
-  	<module>bos_utils</module>
-  	<module>bos_domain</module>
-  	<module>bos_dao</module>
-  	<module>bos_service</module>
-  	<module>bos_web</module>
+  	<module>../bos_dao</module>
+  	<module>../bos_domain</module>
+  	<module>../bos_service</module>
+  	<module>../bos_utils</module>
+  	<module>../bos_web</module>
   </modules>
 </project>

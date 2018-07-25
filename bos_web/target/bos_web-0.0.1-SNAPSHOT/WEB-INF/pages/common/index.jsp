@@ -152,13 +152,14 @@
 	}
 	// 版权信息
 	function showAbout(){
-		$.messager.alert("宅急送 v1.0","管理员邮箱: zqx@itcast.cn");
+		$.messager.alert("货代管理 v1.0","管理员邮箱: Dragon.Wen@hafele.com");
 	}
 </script>
 </head>
 <body class="easyui-layout">
 	<div data-options="region:'north',border:false"
-		style="height:80px;padding:10px;background:url('./images/header_bg.png') no-repeat right;">
+		style="height:80px;padding:10px;background-size: 100% 100%;background-repeat: no-repeat;
+    	background-image: url(./images/header_bg.png);">
 		<div id="sessionInfoDiv"
 			style="position: absolute;right: 5px;top:10px;">
 			[<strong>超级管理员</strong>]，欢迎你！
