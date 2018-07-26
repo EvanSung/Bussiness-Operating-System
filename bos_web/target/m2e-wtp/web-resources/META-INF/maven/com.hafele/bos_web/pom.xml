@@ -8,4 +8,19 @@
   <artifactId>bos_web</artifactId>
   <packaging>war</packaging>
   <description>子工程，存放表现层代码、页面、js、css等资源文件</description>
+  
+  
+  <dependencies>
+  	<!-- 添加项目依赖 -->
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_domain</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_service</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
