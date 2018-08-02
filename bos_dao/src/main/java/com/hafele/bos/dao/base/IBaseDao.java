@@ -3,6 +3,8 @@ package com.hafele.bos.dao.base;
 import java.io.Serializable;
 import java.util.List;
 
+import com.hafele.bos.utils.PageBean;
+
 /**
  * <p>Title: IBaseDao</p>  
  * <p>Description: 持久层通用接口</p>  
@@ -46,4 +48,26 @@ public interface IBaseDao<T> {
 	 * @return
 	 */
 	public List<T> findAll();
+	
+	/**
+	 * <p>Title: executeUpdate</p>  
+	 * <p>Description: 自定义通用更新方法</p>  
+	 * @param queryName
+	 * @param objects
+	 */
+	public void executeUpdate(String queryName,Object...objects);
+	
+	/**
+	 * <p>Title: pageQuery</p>  
+	 * <p>Description: 通用分页查询方法</p>  
+	 * @param pageBean
+	 */
+	public void pageQuery(PageBean pageBean);
+	
+	/**
+	 * <p>Title: saveOrUpdate</p>  
+	 * <p>Description: </p>  
+	 * @param region
+	 */
+	public void saveOrUpdate(T entity);
 }

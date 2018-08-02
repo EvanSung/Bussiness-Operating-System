@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -88,6 +89,9 @@ input[type=password] {
 						</a>
 					</div>
 				</form>
+				<s:if test="hasActionErrors()">
+					<div style="text-align:center; margin:10px;"><font color="#FF0000"><s:actionerror/></font></div>
+				</s:if>
 			</div>
 		</div>
 	</div>

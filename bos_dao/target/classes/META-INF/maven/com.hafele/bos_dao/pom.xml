@@ -7,4 +7,16 @@
   </parent>
   <artifactId>bos_dao</artifactId>
   <description>子工程，存放持久层代码</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_domain</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_utils</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

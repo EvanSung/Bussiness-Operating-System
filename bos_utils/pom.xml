@@ -7,4 +7,11 @@
   </parent>
   <artifactId>bos_utils</artifactId>
   <description>子工程，存放工具类</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_domain</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

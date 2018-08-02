@@ -18,5 +18,11 @@
   		<artifactId>bos_dao</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	
+  	<dependency>
+  		<groupId>com.hafele</groupId>
+  		<artifactId>bos_utils</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

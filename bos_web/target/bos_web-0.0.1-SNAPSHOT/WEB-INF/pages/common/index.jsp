@@ -85,7 +85,32 @@
 		});
 		
 		$("#btnEp").click(function(){
-			alert("修改密码");
+			
+			//在提交ajax请求之前，需要进行表单校验，如果校验通过再发送请求
+			var v = $("#editPasswordForm").form("validate");
+			if(v){
+				//表单校验通过，还需要验证两次输入的密码是否一致
+				var newPass = $("#txtNewPass").val();
+				var rePass = $("#txtRePass").val();
+				if(newPass == rePass){
+					var url = "${pageContext.request.contextPath}/userAction_editPassword.action";
+					//两次输入一致，可以发送ajax请求
+					$.post(url,{"password":newPass},function(data){
+						//关闭修改密码窗口
+						$("#editPwdWindow").window("close");
+						if(data = '1'){
+							//修改密码成功
+							$.messager.alert("提示信息","修改密码成功！","info");
+						}else{
+							//修改密码失败
+							$.messager.alert("提示信息","修改密码失败！","error");
+						}
+					});
+				}else{
+					//两次输入不一致，弹出错误提示
+					$.messager.alert("提示信息","两次密码输入不一致！","warning");
+				}
+			}
 		});
 	});
 
@@ -142,7 +167,7 @@
 		$.messager
 		.confirm('系统提示','您确定要退出本次登录吗?',function(isConfirm) {
 			if (isConfirm) {
-				location.href = '${pageContext.request.contextPath }/login.jsp';
+				location.href = '${pageContext.request.contextPath }/userAction_logout.action';
 			}
 		});
 	}
@@ -178,7 +203,7 @@
 			<div onclick="changeTheme('metro');">metro</div>
 		</div>
 		<div id="layout_north_kzmbMenu" style="width: 100px; display: none;">
-			<div onclick="editPassword();">修改密码</div>
+			<div onclick="editPassword();" data-options="iconCls:'icon-edit'">修改密码</div>
 			<div onclick="showAbout();">联系管理员</div>
 			<div class="menu-sep"></div>
 			<div onclick="logoutFun();">退出系统</div>
@@ -229,16 +254,18 @@
         background: #fafafa">
         <div class="easyui-layout" fit="true">
             <div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
-                <table cellpadding=3>
-                    <tr>
-                        <td>新密码：</td>
-                        <td><input id="txtNewPass" type="Password" class="txt01" /></td>
-                    </tr>
-                    <tr>
-                        <td>确认密码：</td>
-                        <td><input id="txtRePass" type="Password" class="txt01" /></td>
-                    </tr>
+                <form id="editPasswordForm">
+                	<table cellpadding=3>
+                    	<tr>
+                        	<td>新密码：</td>
+                        	<td><input required="true" id="txtNewPass" data-options="validType:'length[6,8]'" type="Password" class="txt01 easyui-validatebox" /></td>
+                    	</tr>
+                    	<tr>
+                        	<td>确认密码：</td>
+                        	<td><input required="true" id="txtRePass" data-options="validType:'length[6,8]'" type="Password" class="txt01 easyui-validatebox" /></td>
+                    	</tr>
                 </table>
+                </form>
             </div>
             <div region="south" border="false" style="text-align: right; height: 30px; line-height: 30px;">
                 <a id="btnEp" class="easyui-linkbutton" icon="icon-ok" href="javascript:void(0)" >确定</a> 

@@ -157,10 +157,11 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageSize:10,
+			pageList: [10,30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/subarea.json",
+			url : "",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -196,6 +197,16 @@
 	function doDblClickRow(){
 		alert("双击表格数据...");
 	}
+	
+	$(function(){
+		$("#save").click(function(){
+			//表单校验，如果校验通过再提交表单
+			var v = $("#addSubareaForm").form("validate");
+			if(v){
+				$("#addSubareaForm").submit();
+			}
+		});
+	})
 </script>	
 </head>
 <body class="easyui-layout" style="visibility:hidden;">
@@ -211,7 +222,7 @@
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addSubareaForm" action="${pageContext.request.contextPath }/subareaAction_add.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">分区信息</td>
@@ -224,7 +235,7 @@
 						<td>选择区域</td>
 						<td>
 							<input class="easyui-combobox" name="region.id"  
-    							data-options="valueField:'id',textField:'name',url:'json/standard.json'" />  
+    							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/regionAction_listajax.action'" />  
 						</td>
 					</tr>
 					<tr>
