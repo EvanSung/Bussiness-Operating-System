@@ -1,5 +1,7 @@
 package com.hafele.bos.service;
 
+import java.util.List;
+
 import com.hafele.bos.domain.Staff;
 import com.hafele.bos.utils.PageBean;
 
@@ -53,5 +55,12 @@ public interface IStaffService {
 	 * @param ids
 	 */
 	public void restore(String ids);
+
+	/**
+	 * <p>Title: findListNotDelete</p>  
+	 * <p>Description: 查询未删除的取派员</p>  
+	 * @return
+	 */
+	public List<Staff> findListNotDelete();
 
 }

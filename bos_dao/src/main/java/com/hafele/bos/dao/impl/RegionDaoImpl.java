@@ -16,7 +16,6 @@ import com.hafele.bos.domain.Region;
 @Repository
 public class RegionDaoImpl extends BaseDaoImpl<Region> implements IRegionDao {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Region> findListByQ(String q) {
 		String hql = "FROM Region r WHERE r.shortcode LIKE ? "

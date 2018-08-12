@@ -29,6 +29,8 @@
 <script type="text/javascript">
 	function doAdd(){
 		$('#addDecidedzoneWindow').window("open");
+		//重新加载未分区表格数据
+		$("#subareaGrid").datagrid("resize");
 	}
 	
 	function doEdit(){
@@ -135,7 +137,7 @@
 		// 添加、修改定区
 		$('#addDecidedzoneWindow').window({
 	        title: '添加修改定区',
-	        width: 600,
+	        width: 650,
 	        modal: true,
 	        shadow: true,
 	        closed: true,
@@ -160,7 +162,6 @@
 	});
 
 	function doDblClickRow(){
-		alert("双击表格数据...");
 		$('#association_subarea').datagrid( {
 			fit : true,
 			border : true,
@@ -293,20 +294,20 @@
 						<td>选择负责人</td>
 						<td>
 							<input class="easyui-combobox" name="region.id"  
-    							data-options="valueField:'id',textField:'name',url:'json/standard.json'" />  
+    							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/staffAction_listajax.action'" />  
 						</td>
 					</tr>
 					<tr height="300">
 						<td valign="top">关联分区</td>
 						<td>
-							<table id="subareaGrid"  class="easyui-datagrid" border="false" style="width:300px;height:300px" data-options="url:'json/decidedzone_subarea.json',fitColumns:true,singleSelect:false">
+							<table id="subareaGrid"  class="easyui-datagrid" border="false" style="width:400px;height:300px" data-options="url:'${pageContext.request.contextPath}/subareaAction_listajax.action',fitColumns:true,singleSelect:false">
 								<thead>  
-							        <tr>  
-							            <th data-options="field:'id',width:30,checkbox:true">编号</th>  
-							            <th data-options="field:'addresskey',width:150">关键字</th>  
-							            <th data-options="field:'position',width:200,align:'right'">位置</th>  
-							        </tr>  
-							    </thead> 
+       								<tr>  
+           								<th data-options="field:'id',width:30,checkbox:true">编号</th>  
+           								<th data-options="field:'addresskey',width:150,align:'center'">关键字</th>  
+           								<th data-options="field:'position',width:200,align:'center'">位置</th>  
+       								</tr>  
+   								</thead> 
 							</table>
 						</td>
 					</tr>

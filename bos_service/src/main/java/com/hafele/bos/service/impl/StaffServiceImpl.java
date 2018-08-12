@@ -1,6 +1,10 @@
 package com.hafele.bos.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +64,14 @@ public class StaffServiceImpl implements IStaffService {
 				staffDao.executeUpdate("staff.restore", id);
 			}
 		}
+	}
+
+	@Override
+	public List<Staff> findListNotDelete() {
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Staff.class);
+		//添加过滤条件，未删除的
+		detachedCriteria.add(Restrictions.ne("deltag", "1"));
+		return staffDao.findByCriteria(detachedCriteria);
 	}
 
 }

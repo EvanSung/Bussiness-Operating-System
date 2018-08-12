@@ -66,7 +66,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll() {
-		String hql = "FROM" + entityClass.getSimpleName();
+		String hql = "FROM " + entityClass.getSimpleName();
 		return (List<T>) this.getHibernateTemplate().find(hql);
 	}
 
@@ -97,6 +97,10 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 		pageBean.setTotal(total.intValue());
 		//改变hibernate发出的sql的形式，改为：select * from ...
 		detachedCriteria.setProjection(null);
+		
+		//指定hibernate框架如何封装对象，在多表关联查询时，发送查询多张表的sql语句，依然封装成指定的ROOT对象
+		detachedCriteria.setResultTransformer(DetachedCriteria.ROOT_ENTITY);
+		
 		int firstResult = (currentPage - 1) * pageSize;//从哪开始查询
 		int maxResults = pageSize;//查询几条
 		//查询数据库，获取rows--当前页要展示的数据集合
@@ -107,5 +111,10 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	@Override
 	public void saveOrUpdate(T entity) {
 		this.getHibernateTemplate().saveOrUpdate(entity);
+	}
+
+	@Override
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+		return (List<T>) this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 }

@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -38,9 +40,20 @@ public class RegionAction extends BaseAction<Region> {
 	private File regionFile;
 	
 	private String q;
+	
+	//区域ids
+	private String ids;
 
 	public String getQ() {
 		return q;
+	}
+	
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 
 	public void setQ(String q) {
@@ -55,8 +68,18 @@ public class RegionAction extends BaseAction<Region> {
 	private IRegionService regionService;
 
 	/**
+	 * <p>Title: add</p>  
+	 * <p>Description: 区域添加</p>  
+	 * @return
+	 */
+	public String add() {
+		regionService.add(model);
+		return LIST;
+	}
+	
+	/**
 	 * <p>Title: importXls</p>  
-	 * <p>Description: 文件上传方法</p>  
+	 * <p>Description: 文件导入数据方法</p>  
 	 * @return
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
@@ -105,7 +128,45 @@ public class RegionAction extends BaseAction<Region> {
 	 * @return
 	 * @throws IOException 
 	 */
-	public String pageQuery() throws IOException {		
+	public String pageQuery() throws IOException {
+		DetachedCriteria detachedCriteria = pageBean.getDetachedCriteria();
+		
+		String province = model.getProvince();
+		
+		String city = model.getCity();
+		
+		String district = model.getDistrict();
+		
+		String postcode = model.getPostcode();
+		
+		String shortcode = model.getShortcode();
+		
+		String citycode = model.getCitycode();
+		
+		if(StringUtils.isNotBlank(province)) {
+			detachedCriteria.add(Restrictions.like("province", "%"+province+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(city)) {
+			detachedCriteria.add(Restrictions.like("city", "%"+city+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(district)) {
+			detachedCriteria.add(Restrictions.like("district", "%"+district+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(postcode)) {
+			detachedCriteria.add(Restrictions.like("postcode", "%"+postcode+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(shortcode)) {
+			detachedCriteria.add(Restrictions.like("shortcode", "%"+shortcode+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(citycode)) {
+			detachedCriteria.add(Restrictions.like("name", "%"+citycode+"%"));
+		}
+		
 		regionService.pageQuery(pageBean);
 		this.java2Json(pageBean, new String[] {"currentPage","pageSize","detachedCriteria","subareas"});
 		return NONE;
@@ -125,5 +186,38 @@ public class RegionAction extends BaseAction<Region> {
 		}
 		this.java2Json(list, new String[] {"subareas"});
 		return NONE;
+	}
+	
+	/**
+	 * <p>Title: delete</p>  
+	 * <p>Description: 删除区域信息</p>  
+	 * @return
+	 */
+	public String delete() {
+		regionService.delete(ids);
+		return LIST;
+	}
+	
+	/**
+	 * <p>Title: edit</p>  
+	 * <p>Description: 修改区域信息</p>  
+	 * @return
+	 */
+	public String edit() {
+		//先查询数据库原始数据
+		String id = model.getId();
+		Region region = regionService.findById(id);
+		
+		//根据页面提交的参数进行覆盖，参数已经封装到model对象
+		region.setProvince(model.getProvince());
+		region.setCity(model.getCity());
+		region.setDistrict(model.getDistrict());
+		region.setPostcode(model.getPostcode());
+		region.setShortcode(model.getShortcode());
+		region.setCitycode(model.getCitycode());
+		
+		regionService.update(region);//提交数据
+		
+		return LIST;
 	}
 }

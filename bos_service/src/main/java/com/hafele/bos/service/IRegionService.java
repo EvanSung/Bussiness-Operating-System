@@ -42,4 +42,33 @@ public interface IRegionService {
 	 */
 	public List<Region> findListByQ(String q);
 
+	/**
+	 * <p>Title: delete</p>  
+	 * <p>Description: 删除区域信息</p>  
+	 * @param ids
+	 */
+	public void delete(String ids);
+
+	/**
+	 * <p>Title: add</p>  
+	 * <p>Description: 添加区域</p>  
+	 * @param model
+	 */
+	public void add(Region model);
+
+	/**
+	 * <p>Title: findById</p>  
+	 * <p>Description: 根据ID查询数据</p>  
+	 * @param id
+	 * @return
+	 */
+	public Region findById(String id);
+
+	/**
+	 * <p>Title: update</p>  
+	 * <p>Description: 修改区域信息</p>  
+	 * @param region
+	 */
+	public void update(Region region);
+
 }

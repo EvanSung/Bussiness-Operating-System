@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts SYSTEM "http://struts.apache.org/dtds/struts-2.3.dtd" >
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
 <struts>
-	<constant name="struts.devMode" value="false" />
+	<constant name="struts.devMode" value="true" />
+	
+<!-- 	<constant name="struts.objectFactory" value="spring"></constant> -->
 	
 	<package name="basicstruts2" extends="struts-default">
 	
@@ -41,9 +46,14 @@
 			<result name="list">/WEB-INF/pages/base/staff.jsp</result>
 		</action>
 		
-		<!--  -->
+		<!-- 区域管理 -->
 		<action name="regionAction_*" class="regionAction" method="{1}">
 			<result name="list">/WEB-INF/pages/base/region.jsp</result>
+		</action>
+		
+		<!-- 管理分区 -->
+		<action name="subareaAction_*" class="subareaAction" method="{1}">
+			<result name="list">/WEB-INF/pages/base/subarea.jsp</result>
 		</action>
 	</package>
 

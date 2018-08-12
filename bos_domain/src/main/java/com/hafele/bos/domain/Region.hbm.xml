@@ -32,4 +32,8 @@
             <one-to-many class="com.hafele.bos.domain.Subarea" />
         </set>
     </class>
+    <!-- 删除区域信息 -->
+    <query name="region.delete">
+    	DELETE Region WHERE id = ?
+    </query>
 </hibernate-mapping>

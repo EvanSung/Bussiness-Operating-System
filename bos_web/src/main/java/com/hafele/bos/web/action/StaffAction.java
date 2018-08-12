@@ -1,7 +1,11 @@
 package com.hafele.bos.web.action;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -55,6 +59,29 @@ public class StaffAction extends BaseAction<Staff> {
 	 * @throws IOException
 	 */
 	public String pageQuery() throws IOException {
+		DetachedCriteria detachedCriteria = pageBean.getDetachedCriteria();
+		
+		//姓名
+		String name = model.getName();
+		
+		//电话
+		String telephone = model.getTelephone();
+		
+		//单位
+		String station = model.getStation();
+		
+		if(StringUtils.isNotBlank(name)) {
+			detachedCriteria.add(Restrictions.like("name", "%"+name+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(telephone)) {
+			detachedCriteria.add(Restrictions.like("telephone", "%"+telephone+"%"));
+		}
+		
+		if(StringUtils.isNotBlank(station)) {
+			detachedCriteria.add(Restrictions.like("station", "%"+station+"%"));
+		}
+		
 		staffService.pageQuery(pageBean);
 		this.java2Json(pageBean, new String[] {"currentPage","pageSize","detachedCriteria"});
 		return NONE;
@@ -81,15 +108,6 @@ public class StaffAction extends BaseAction<Staff> {
 		return LIST;
 	}
 	
-	/**
-	 * <p>Title: search</p>  
-	 * <p>Description: 搜索取派员方法</p>  
-	 * @return
-	 */
-	public String search() {
-		
-		return LIST;
-	}
 	
 	/**
 	 * <p>Title: restore</p>  
@@ -109,5 +127,16 @@ public class StaffAction extends BaseAction<Staff> {
 	public String delete() {
 		staffService.delete(ids);
 		return LIST;
+	}
+	
+	/**
+	 * <p>Title: listajax</p>  
+	 * <p>Description: 查询所有取派员，返回json数据</p>  
+	 * @return
+	 */
+	public String listajax() {
+		List<Staff> list = staffService.findListNotDelete();
+		this.java2Json(list, new String[] {"decidedzones"});
+		return NONE;
 	}
 }

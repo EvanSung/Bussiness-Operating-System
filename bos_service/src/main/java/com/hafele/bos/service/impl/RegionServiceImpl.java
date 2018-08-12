@@ -2,6 +2,7 @@ package com.hafele.bos.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,31 @@ public class RegionServiceImpl implements IRegionService {
 	@Override
 	public List<Region> findListByQ(String q) {
 		return regionDao.findListByQ(q);
+	}
+
+	@Override
+	public void delete(String ids) {
+		if(StringUtils.isNotBlank(ids)) {
+			String[] regionIds = ids.split(",");
+			for(String id : regionIds) {
+				regionDao.executeUpdate("region.delete", id);
+			}
+		}
+	}
+
+	@Override
+	public void add(Region model) {
+		regionDao.save(model);
+	}
+
+	@Override
+	public Region findById(String id) {
+		return regionDao.findById(id);
+	}
+
+	@Override
+	public void update(Region region) {
+		regionDao.update(region);
 	}
 
 }

@@ -3,6 +3,8 @@ package com.hafele.bos.dao.base;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+
 import com.hafele.bos.utils.PageBean;
 
 /**
@@ -66,8 +68,16 @@ public interface IBaseDao<T> {
 	
 	/**
 	 * <p>Title: saveOrUpdate</p>  
-	 * <p>Description: </p>  
+	 * <p>Description: 更新保存</p>  
 	 * @param region
 	 */
 	public void saveOrUpdate(T entity);
+	
+	/**
+	 * <p>Title: findByCriteria</p>  
+	 * <p>Description: </p>  
+	 * @param detachedCriteria
+	 * @return
+	 */
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria);
 }

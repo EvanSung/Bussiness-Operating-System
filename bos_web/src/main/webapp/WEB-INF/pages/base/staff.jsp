@@ -211,6 +211,40 @@
 	        resizable:false
 		});
 		
+		//定义一个工具方法，用于将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+		$.fn.serializeJson=function(){  
+            var serializeObj={};  
+            var array=this.serializeArray();
+            $(array).each(function(){  
+                if(serializeObj[this.name]){  
+                    if($.isArray(serializeObj[this.name])){  
+                        serializeObj[this.name].push(this.value);  
+                    }else{  
+                        serializeObj[this.name]=[serializeObj[this.name],this.value];  
+                    }  
+                }else{  
+                    serializeObj[this.name]=this.value;   
+                }  
+            });  
+            return serializeObj;  
+        }; 
+		
+		//为搜索按钮绑定事件
+		$("#search").click(function(){
+			//将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+			var p = $("#searchStaffForm").serializeJson();
+			console.info(p);
+			//调用数据表格的load方法，重新发送一次ajax请求，并且提交参数
+			$("#grid").datagrid("load",p);
+			//关闭查询窗口
+			$("#searchStaffWindow").window("close");
+		});
+		
+		//为清空按钮绑定事件
+		$("#empty").click(function(){
+			$('#searchStaffForm')[0].reset();
+		});
+		
 	});
 
 	//数据表格绑定的双击行事件对应的函数
@@ -241,15 +275,6 @@
 			}
 		});
 		
-		//为搜索按钮绑定事件
-		$("#search").click(function(){
-			//表单校验，如果通过，提交表单
-			var v = $("#searchStaffForm").form("validate");
-			if(v){
-				$("#searchStaffForm").submit();
-			}
-		});
-		
 		var reg = /^1[3|4|5|7|8][0-9]{9}$/;
 		//扩展手机号码校验规则
 		$.extend($.fn.validatebox.defaults.rules, {
@@ -267,6 +292,7 @@
 	<div region="center" border="false">
     	<table id="grid"></table>
 	</div>
+	<!-- 添加取派员窗口 Start -->
 	<div class="easyui-window" title="对收派员进行添加" id="addStaffWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false" >
 			<div class="datagrid-toolbar">
@@ -281,10 +307,6 @@
 						<td colspan="2">收派员信息</td>
 					</tr>
 					<!-- TODO 这里完善收派员添加 table -->
-					<!-- <tr>
-						<td>取派员编号</td>
-						<td><input type="text" name="id" class="easyui-validatebox" required="true"/></td>
-					</tr> -->
 					<tr>
 						<td>姓名</td>
 						<td><input type="text" name="name" class="easyui-validatebox" required="true"/></td>
@@ -312,8 +334,9 @@
 			</form>
 		</div>
 	</div>
+	<!-- 添加取派员窗口 End -->
 	
-	<!-- 修改取派员窗口 -->
+	<!-- 修改取派员窗口 Strat -->
 	<div class="easyui-window" title="对收派员进行修改" id="editStaffWindow" collapsible="false" 
 		minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false" >
@@ -357,39 +380,42 @@
 			</form>
 		</div>
 	</div>
+	<!-- 修改取派员窗口 End -->
 	
-	<!-- 查找取派员窗口 -->
+	<!-- 查询取派员窗口 Start -->
 	<div class="easyui-window" title="对收派员进行搜索" id="searchStaffWindow" collapsible="false" 
 		minimizable="false" maximizable="false" style="top:20px;left:200px">
-		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false" >
-			<div class="datagrid-toolbar">
-				<a id="search" icon="icon-search" href="#" class="easyui-linkbutton" plain="true" >搜索</a>
-			</div>
-		</div>
 		
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="searchStaffForm" action="${pageContext.request.contextPath }/staffAction_search.action" method="post">
+			<form id="searchStaffForm">
 				<input type="hidden" name="id">
-				<table class="table-edit" width="80%" align="center">
-					<tr class="title">
-						<td colspan="2">收派员搜索条件</td>
-					</tr>
-					<tr>
-						<td>姓名</td>
-						<td><input type="text" name="name" class="easyui-validatebox"/></td>
-					</tr>
-					<tr>
-						<td>手机</td>
-						<td><input type="text" data-options="validType:'telephone'" 
-							name="telephone" class="easyui-validatebox"/></td>
-					</tr>
-					<tr>
-						<td>单位</td>
-						<td><input type="text" name="station" class="easyui-validatebox"/></td>
-					</tr>
+					<table class="table-edit" width="80%" align="center">
+						<tr class="title">
+							<td colspan="2">收派员搜索条件</td>
+						</tr>
+						<tr>
+							<td>姓名</td>
+							<td><input type="text" name="name" class="easyui-validatebox"/></td>
+						</tr>
+						<tr>
+							<td>手机</td>
+							<td><input type="text" data-options="validType:'telephone'" 
+								name="telephone" class="easyui-validatebox"/></td>
+						</tr>
+						<tr>
+							<td>单位</td>
+							<td><input type="text" name="station" class="easyui-validatebox"/></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<a id="search" icon="icon-search" href="#" class="easyui-linkbutton">查询</a> 
+								<a id="empty" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">清空</a>
+							</td>
+						</tr>
 					</table>
 			</form>
 		</div>
 	</div>
+	<!-- 查询取派员窗口 End -->
 </body>
 </html>	
