@@ -128,7 +128,7 @@
 			pageList: [10,30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/decidedzone.json",
+			url : "${pageContext.request.contextPath }/decidedzoneAction_pageQuery.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -159,6 +159,17 @@
 			alert("执行查询...");
 		});
 		
+	});
+	
+	$(function(){
+		//定去添加保存
+		$("#add_save").click(function(){
+			//表单校验，如果校验通过再提交表单
+			var v = $("#addDecidedzoneForm").form("validate");
+			if(v){
+				$("#addDecidedzoneForm").submit();
+			}
+		});
 	});
 
 	function doDblClickRow(){
@@ -268,16 +279,16 @@
 		</div>
 	</div>
 	
-	<!-- 添加 修改分区 -->
-	<div class="easyui-window" title="定区添加修改" id="addDecidedzoneWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
+	<!-- 添加分区Start -->
+	<div class="easyui-window" title="定区添加" id="addDecidedzoneWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="height:31px;overflow:hidden;" split="false" border="false" >
 			<div class="datagrid-toolbar">
-				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
+				<a id="add_save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
 			</div>
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addDecidedzoneForm" action="${pageContext.request.contextPath }/decidedzoneAction_add.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">定区信息</td>
@@ -293,7 +304,7 @@
 					<tr>
 						<td>选择负责人</td>
 						<td>
-							<input class="easyui-combobox" name="region.id"  
+							<input class="easyui-combobox" name="staff.id"  
     							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/staffAction_listajax.action'" />  
 						</td>
 					</tr>
@@ -303,7 +314,7 @@
 							<table id="subareaGrid"  class="easyui-datagrid" border="false" style="width:400px;height:300px" data-options="url:'${pageContext.request.contextPath}/subareaAction_listajax.action',fitColumns:true,singleSelect:false">
 								<thead>  
        								<tr>  
-           								<th data-options="field:'id',width:30,checkbox:true">编号</th>  
+           								<th data-options="field:'subareaid',width:30,checkbox:true">编号</th>  
            								<th data-options="field:'addresskey',width:150,align:'center'">关键字</th>  
            								<th data-options="field:'position',width:200,align:'center'">位置</th>  
        								</tr>  
@@ -315,6 +326,7 @@
 			</form>
 		</div>
 	</div>
+	<!-- End -->
 	<!-- 查询定区 -->
 	<div class="easyui-window" title="查询定区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="overflow:auto;padding:5px;" border="false">

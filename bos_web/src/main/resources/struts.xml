@@ -4,7 +4,7 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 	
 <!-- 	<constant name="struts.objectFactory" value="spring"></constant> -->
 	
@@ -54,6 +54,11 @@
 		<!-- 管理分区 -->
 		<action name="subareaAction_*" class="subareaAction" method="{1}">
 			<result name="list">/WEB-INF/pages/base/subarea.jsp</result>
+		</action>
+		
+		<!-- 管理定区、调度排班 -->
+		<action name="decidedzoneAction_*" class="decidedzoneAction" method="{1}">
+			<result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
 		</action>
 	</package>
 

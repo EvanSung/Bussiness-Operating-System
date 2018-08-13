@@ -127,7 +127,7 @@
 		checkbox : true,
 	}, {
 		field : 'showid',
-		title : '分拣编号',
+		title : '分区编号',
 		width : 120,
 		align : 'center',
 		formatter : function(data,row ,index){

@@ -7,6 +7,8 @@ import org.hibernate.criterion.DetachedCriteria;
 
 import com.hafele.bos.utils.PageBean;
 
+
+
 /**
  * <p>Title: IBaseDao</p>  
  * <p>Description: 持久层通用接口</p>  
