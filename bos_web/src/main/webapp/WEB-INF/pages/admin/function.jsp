@@ -122,17 +122,36 @@
 			  {
 				  field : 'generatemenu',
 				  title : '是否生成菜单',
-				  width : 200
+				  width : 150,
+				  formatter : function(data,row, index){
+					  if(data=="1"){
+						  return "生成";
+					  }else{
+						  return "不生成";
+					  }
+				  }
 			  },  
 			  {
 				  field : 'zindex',
 				  title : '优先级',
-				  width : 200
+				  width : 100
 			  },  
 			  {
 				  field : 'page',
 				  title : '路径',
 				  width : 300
+			  },  
+			  {
+				  field : 'type',
+				  title : '菜单类型',
+				  width : 100,
+				  formatter : function(data,row, index){
+					  if(data=="1"){
+						  return "基本功能";
+					  }else{
+						  return "系统管理";
+					  }
+				  }
 			  }
 			]]
 		});

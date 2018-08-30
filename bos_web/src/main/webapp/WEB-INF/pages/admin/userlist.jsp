@@ -58,7 +58,7 @@
 	}, {
 		field : 'username',
 		title : '名称',
-		width : 80,
+		width : 100,
 		rowspan : 2,
 		align : 'center'
 	},{

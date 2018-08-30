@@ -58,7 +58,7 @@
 		var typeOption = $("#type").find("option");
 		for(var i = 0; i < typeOption.length; i++){
 			if($(typeOption[i]).val() == typeValue){
-				$("#typemenu").combobox("select", typeValue);
+				$("#type").combobox("select", typeValue);
 			}
 		}
 	});
@@ -104,7 +104,7 @@
 					<tr>
 						<td>菜单类型</td>
 						<td>
-							<select name="type" class="easyui-combobox" style="width:140px;">
+							<select name="type" id="type" class="easyui-combobox" style="width:140px;">
 								<option value="0">系统管理</option>
 								<option value="1">基本功能</option>
 							</select>
