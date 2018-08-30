@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -43,7 +44,7 @@
 		
 		// 基本功能菜单加载
 		$.ajax({
-			url : '${pageContext.request.contextPath}/json/menu.json',
+			url : '${pageContext.request.contextPath}/functionAction_findMenu.action',
 			type : 'POST',
 			dataType : 'text',
 			success : function(data) {
@@ -57,7 +58,7 @@
 		
 		// 系统管理菜单加载
 		$.ajax({
-			url : '${pageContext.request.contextPath}/json/admin.json',
+			url : '${pageContext.request.contextPath}/functionAction_findSystemMenu.action',
 			type : 'POST',
 			dataType : 'text',
 			success : function(data) {
@@ -74,7 +75,7 @@
 		window.setTimeout(function(){
 			$.messager.show({
 				title:"消息提示",
-				msg:'欢迎登录，超级管理员！ <a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
+				msg:'欢迎登录，${loginUser.username }！ <a href="javascript:void" onclick="top.showAbout();">联系管理员</a>',
 				timeout:5000
 			});
 		},3000);
@@ -187,7 +188,7 @@
     	background-image: url(./images/header_bg.png);">
 		<div id="sessionInfoDiv"
 			style="position: absolute;right: 5px;top:10px;">
-			[<strong>超级管理员</strong>]，欢迎你！
+			[<strong>${loginUser.username }</strong>]，欢迎你！
 		</div>
 		<div style="position: absolute; right: 5px; bottom: 10px; ">
 			<a href="javascript:void(0);" class="easyui-menubutton"

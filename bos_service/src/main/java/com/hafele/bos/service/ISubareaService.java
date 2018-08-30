@@ -63,5 +63,13 @@ public interface ISubareaService {
 	 */
 	public List<Subarea> findListNotAssociation();
 
+	/**
+	 * <p>Title: findListByDecidedzoneId</p>  
+	 * <p>Description: 根据定区id查询对应的分区</p>  
+	 * @param decidedzoneId
+	 * @return
+	 */
+	public List<Subarea> findListByDecidedzoneId(String decidedzoneId);
+
 
 }

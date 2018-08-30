@@ -30,6 +30,16 @@
 	$(function(){
 		// 点击保存
 		$('#save').click(function(){
+			//校验表单
+			var v = $("#functionForm").form("validate");
+			if(v){
+				//校验通过提交表单
+				$("#functionForm").submit();
+			}
+		});
+		
+		//返回按钮
+		$('#back').click(function(){
 			location.href='${pageContext.request.contextPath}/page_admin_function.action';
 		});
 	});
@@ -38,19 +48,20 @@
 <body class="easyui-layout">
 <div data-options="region:'north'">
 	<div class="datagrid-toolbar">
+		<a id="back" icon="icon-back" href="#" class="easyui-linkbutton" plain="true" >返回</a>
 		<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
 	</div>
 </div>
 <div data-options="region:'center'">
-	<form id="functionForm" method="post">
+	<form id="functionForm" action="${pageContext.request.contextPath }/functionAction_add.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">功能权限信息</td>
 					</tr>
 					<tr>
-						<td width="200">编号</td>
+						<td width="200">关键字</td>
 						<td>
-							<input type="text" name="id" class="easyui-validatebox" data-options="required:true" />						
+							<input type="text" name="code" class="easyui-validatebox" data-options="required:true" />						
 						</td>
 					</tr>
 					<tr>
@@ -64,7 +75,7 @@
 					<tr>
 						<td>是否生成菜单</td>
 						<td>
-							<select name="generateMenu" class="easyui-combobox">
+							<select name="generatemenu" class="easyui-combobox" style="width:140px;">
 								<option value="0">不生成</option>
 								<option value="1">生成</option>
 							</select>
@@ -77,9 +88,18 @@
 						</td>
 					</tr>
 					<tr>
+						<td>菜单类型</td>
+						<td>
+							<select name="type" class="easyui-combobox" style="width:140px;">
+								<option value="0">系统管理</option>
+								<option value="1">基本功能</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
 						<td>父功能点</td>
 						<td>
-							<input name="parentFunction.id" class="easyui-combobox" data-options="valueField:'id',textField:'info',url:''"/>
+							<input name="parentFunction.id" class="easyui-combobox" data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/functionAction_listajaxParentNode.action'"/>
 						</td>
 					</tr>
 					<tr>

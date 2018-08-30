@@ -39,13 +39,19 @@
 		iconCls : 'icon-add',
 		handler : doAdd
 	}, {
+		id : 'button-edit',
+		text : '修改',
+		iconCls : 'icon-edit',
+		handler : doEdit
+	},{
 		id : 'button-delete',
 		text : '删除',
 		iconCls : 'icon-cancel',
 		handler : doDelete
 	}];
-	//定义冻结列
-	var frozenColumns = [ [ {
+
+	// 定义标题栏
+	var columns = [ [ {
 		field : 'id',
 		checkbox : true,
 		rowspan : 2
@@ -53,19 +59,16 @@
 		field : 'username',
 		title : '名称',
 		width : 80,
-		rowspan : 2
-	} ] ];
-
-
-	// 定义标题栏
-	var columns = [ [ {
+		rowspan : 2,
+		align : 'center'
+	},{
 		field : 'gender',
 		title : '性别',
 		width : 60,
 		rowspan : 2,
 		align : 'center'
 	}, {
-		field : 'birthday',
+		field : 'birthdayString',
 		title : '生日',
 		width : 120,
 		rowspan : 2,
@@ -74,10 +77,11 @@
 		title : '其他信息',
 		colspan : 2
 	}, {
-		field : 'telephone',
-		title : '电话',
-		width : 800,
-		rowspan : 2
+		field : 'roleNames',
+		title : '对应角色',
+		width : 600,
+		rowspan : 2,
+		align : 'center'
 	} ], [ {
 		field : 'station',
 		title : '单位',
@@ -87,7 +91,7 @@
 		field : 'salary',
 		title : '工资',
 		width : 80,
-		align : 'right'
+		align : 'center'
 	} ] ];
 	$(function(){
 		// 初始化 datagrid
@@ -95,15 +99,14 @@
 		$('#grid').datagrid( {
 			iconCls : 'icon-forward',
 			fit : true,
+			pagination : true,
 			border : false,
 			rownumbers : true,
 			striped : true,
 			toolbar : toolbar,
-			url : "json/users.json",
+			url : "${pageContext.request.contextPath}/userAction_pageQuery.action",
 			idField : 'id', 
-			frozenColumns : frozenColumns,
 			columns : columns,
-			onClickRow : onClickRow,
 			onDblClickRow : doDblClickRow
 		});
 		
@@ -112,38 +115,58 @@
 	});
 	// 双击
 	function doDblClickRow(rowIndex, rowData) {
-		var items = $('#grid').datagrid('selectRow',rowIndex);
-		doView();
-	}
-	// 单击
-	function onClickRow(rowIndex){
-
+		doEdit();
 	}
 	
 	function doAdd() {
-		alert("添加用户");
 		location.href="${pageContext.request.contextPath}/page_admin_userinfo.action";
 	}
 
 	function doView() {
-		alert("编辑用户");
-		var item = $('#grid').datagrid('getSelected');
-		console.info(item);
-		//window.location.href = "edit.html";
+		alert("查询。。。");
+	}
+	
+	function doEdit(){
+		//获取选中行的数据
+		var rowData = $("#grid").datagrid("getSelected");
+		//取得所有选中行的 itemid
+		var rows = $("#grid").datagrid("getSelections");
+		
+		if(rowData == null){
+			//没有选中的记录，弹出提示
+			$.messager.alert("提示信息","请选择需要修改的用户！","info");
+		} else if(rows.length > 1){
+			//选中多条记录，弹出提示
+			$.messager.alert("提示信息","一次只能修改一条数据！","info");
+		} else {
+			location.href = "${pageContext.request.contextPath }/userAction_callBack.action?userId="+rows[0].id;
+		}
 	}
 
 	function doDelete() {
-		alert("删除用户");
-		var ids = [];
-		var items = $('#grid').datagrid('getSelections');
-		for(var i=0; i<items.length; i++){
-		    ids.push(items[i].id);	    
+		//获得所有选中的行
+		var rows = $("#grid").datagrid("getSelections");
+		if(rows.length == 0){
+			//没有选中的记录，弹出提示
+			$.messager.alert("提示信息","请选择需要删除的区域！","info");
+		}else {
+			//弹出确认框
+			$.messager.confirm("提示信息","你确认删除当前选中的区域吗？",function(r){
+				if(r){
+					var ids = "";
+					var array = new Array();
+					//用户点击确认按钮，删除区域
+					//获取当前选中记录的id
+					for(var i=0;i<rows.length;i++){
+						var id = rows[i].id;//区域id
+						array.push(id);
+					}
+					ids = array.join(",");
+					//发送请求，将ids提交到Action
+					location.href = "${pageContext.request.contextPath }/userAction_delete.action?userId="+ids;
+				}
+			});
 		}
-			
-		console.info(ids.join(","));
-		
-		$('#grid').datagrid('reload');
-		$('#grid').datagrid('uncheckAll');
 	}
 	
 </script>		

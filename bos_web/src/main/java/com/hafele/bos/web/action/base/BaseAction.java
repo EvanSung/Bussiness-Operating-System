@@ -43,6 +43,7 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
 	
 	public static final String HOME = "home";
 	public static final String LIST = "list";
+	public static final String EDIT = "edit";
 	
 	//声明模型对象
 	protected T model;

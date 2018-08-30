@@ -41,12 +41,26 @@ input[type=password] {
 }
 </style>
 <script type="text/javascript">
+	
 	if(window.self != window.top){
 		window.top.location = window.location;
 	}
+	
+	//点击登录，触发点击事件
+	function login(){
+		$("#loginform").submit();
+
+	}
+	//点击回车键登录
+	function keyLogin(){
+	   var evt = window.event || arguments.callee.caller.arguments[0]; // 获取event对象
+	   if (evt.keyCode==13){  //回车键的键值为13
+	        $("#loginform").submit();
+	    }  
+	}
 </script>
 </head>
-<body>
+<body onkeydown="keyLogin();">
 	<div
 		style="width: 900px; height: 50px; position: absolute; text-align: left; left: 50%; top: 50%; margin-left: -450px;; margin-top: -280px;">
 		<span style="float: right; margin-top: 35px; color: #488ED5;">新BOS系统，致力于便捷、安全、稳定等方面的客户体验</span>
@@ -82,7 +96,7 @@ input[type=password] {
 							<img id="loginform:vCode" src="${pageContext.request.contextPath }/validatecode.jsp"
 								onclick="javascript:document.getElementById('loginform:vCode').src='${pageContext.request.contextPath }/validatecode.jsp?'+Math.random();" />
 						</div>
-						<a onclick="document.getElementById('loginform').submit();" href="#<%-- ${pageContext.request.contextPath}/page_common_index.action --%>" id="loginform:j_id19" name="loginform:j_id19">
+						<a onclick="login()" href="#" id="loginform:j_id19" name="loginform:j_id19">
 						<span
 							id="loginform:loginBtn" class="btn btn-login"
 							style="margin-top:-36px;">登录</span>

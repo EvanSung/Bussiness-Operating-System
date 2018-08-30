@@ -39,6 +39,13 @@ public class SubareaAction extends BaseAction<Subarea> {
 	
 	//分区ids
 	private String ids;
+	
+	//接收定区id
+	private String decidedzoneId;
+
+	public void setDecidedzoneId(String decidedzoneId) {
+		this.decidedzoneId = decidedzoneId;
+	}
 
 	public String getIds() {
 		return ids;
@@ -201,6 +208,17 @@ public class SubareaAction extends BaseAction<Subarea> {
 	public String listajax() {
 		List<Subarea> list = subareaService.findListNotAssociation();
 		this.java2Json(list, new String[] {"decidedzone","region"});
+		return NONE;
+	}
+	
+	/**
+	 * <p>Title: findListByDecidedzoneId</p>  
+	 * <p>Description: 根据定区id查询对应的分区</p>  
+	 * @return
+	 */
+	public String findListByDecidedzoneId(){
+		List<Subarea> list = subareaService.findListByDecidedzoneId(decidedzoneId);
+		this.java2Json(list, new String[] {"decidedzone","subareas"});
 		return NONE;
 	}
 }

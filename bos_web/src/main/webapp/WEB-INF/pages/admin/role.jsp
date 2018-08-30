@@ -39,30 +39,86 @@
 		$("#grid").datagrid({
 			toolbar : [
 				{
+					id : 'search',
+					text : '查询',
+					iconCls : 'icon-search',
+					handler : function(){
+						alert("查询。。。");
+					}
+				},{
 					id : 'add',
-					text : '添加角色',
+					text : '添加',
 					iconCls : 'icon-add',
 					handler : function(){
 						location.href='${pageContext.request.contextPath}/page_admin_role_add.action';
 					}
-				}           
+				},{
+					id : 'edit',
+					text : '修改',
+					iconCls : 'icon-edit',
+					handler : function(){
+						//获取选中行的数据
+						var rowData = $("#grid").datagrid("getSelected");
+						//取得所有选中行的 itemid
+						var rows = $("#grid").datagrid("getSelections");
+						
+						if(rowData == null){
+							//没有选中的记录，弹出提示
+							$.messager.alert("提示信息","请选择需要修改的用户！","info");
+						} else if(rows.length > 1){
+							//选中多条记录，弹出提示
+							$.messager.alert("提示信息","一次只能修改一条数据！","info");
+						} else {
+							location.href = "${pageContext.request.contextPath }/roleAction_callBack.action?roleId="+rows[0].id;
+						}
+					}
+				},{
+					id : 'delete',
+					text : '删除',
+					iconCls : 'icon-cancel',
+					handler : function(){
+						//获得所有选中的行
+						var rows = $("#grid").datagrid("getSelections");
+						if(rows.length == 0){
+							//没有选中的记录，弹出提示
+							$.messager.alert("提示信息","请选择需要删除的区域！","info");
+						}else {
+							//弹出确认框
+							$.messager.confirm("提示信息","你确认删除当前选中的区域吗？",function(r){
+								if(r){
+									var ids = "";
+									var array = new Array();
+									//用户点击确认按钮，删除区域
+									//获取当前选中记录的id
+									for(var i=0;i<rows.length;i++){
+										var id = rows[i].id;//区域id
+										array.push(id);
+									}
+									ids = array.join(",");
+									//发送请求，将ids提交到Action
+									location.href = "${pageContext.request.contextPath }/roleAction_delete.action?roleId="+ids;
+								}
+							});
+						}
+					}
+				}
 			],
-			url : '',
+			url : '${pageContext.request.contextPath}/roleAction_pageQuery.action',
 			columns : [[
 				{
 					field : 'id',
 					title : '编号',
-					width : 200
+					width : 260
 				},
 				{
 					field : 'name',
 					title : '名称',
-					width : 200
+					width : 250
 				}, 
 				{
 					field : 'description',
 					title : '描述',
-					width : 200
+					width : 600
 				} 
 			]]
 		});

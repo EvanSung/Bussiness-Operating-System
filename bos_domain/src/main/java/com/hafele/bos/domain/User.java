@@ -1,9 +1,12 @@
 package com.hafele.bos.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * User entity. @author MyEclipse Persistence Tools
+ * 用户实体
  */
 
 public class User implements java.io.Serializable {
@@ -11,9 +14,9 @@ public class User implements java.io.Serializable {
 	/**
 	 *  serialVersionUID
 	 */
-	private static final long serialVersionUID = -1832434720771894107L;
-	
+	private static final long serialVersionUID = 6500932209263713247L;
 	// Fields
+
 	private String id;
 	private String username;
 	private String password;
@@ -23,7 +26,27 @@ public class User implements java.io.Serializable {
 	private String station;
 	private String telephone;
 	private String remark;
+	private Set noticebills = new HashSet(0);
+	private Set<Role> roles = new HashSet(0);
 
+	public String getRoleNames(){
+		String roleNames = "";
+		for(Role role : roles){
+			String name = role.getName();
+			roleNames += name + " ";
+		}
+		return roleNames;
+	}
+	
+	public String getBirthdayString(){
+		if(birthday != null){
+			String format = new SimpleDateFormat("yyyy-MM-dd").format(birthday);
+			return format;
+		}else{
+			return "暂无数据";
+		}
+	}
+	
 	// Constructors
 
 	/** default constructor */
@@ -31,16 +54,14 @@ public class User implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public User(String id, String username, String password) {
+	public User(String id) {
 		this.id = id;
-		this.username = username;
-		this.password = password;
 	}
 
 	/** full constructor */
 	public User(String id, String username, String password, Double salary,
 			Date birthday, String gender, String station, String telephone,
-			String remark) {
+			String remark, Set noticebills, Set roles) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -50,6 +71,8 @@ public class User implements java.io.Serializable {
 		this.station = station;
 		this.telephone = telephone;
 		this.remark = remark;
+		this.noticebills = noticebills;
+		this.roles = roles;
 	}
 
 	// Property accessors
@@ -124,6 +147,22 @@ public class User implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Set getNoticebills() {
+		return this.noticebills;
+	}
+
+	public void setNoticebills(Set noticebills) {
+		this.noticebills = noticebills;
+	}
+
+	public Set getRoles() {
+		return this.roles;
+	}
+
+	public void setRoles(Set roles) {
+		this.roles = roles;
 	}
 
 }

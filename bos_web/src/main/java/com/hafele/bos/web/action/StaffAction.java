@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +84,7 @@ public class StaffAction extends BaseAction<Staff> {
 		}
 		
 		staffService.pageQuery(pageBean);
-		this.java2Json(pageBean, new String[] {"currentPage","pageSize","detachedCriteria"});
+		this.java2Json(pageBean, new String[] {"decidedzones","currentPage","pageSize","detachedCriteria"});
 		return NONE;
 	}
 	
@@ -124,6 +125,7 @@ public class StaffAction extends BaseAction<Staff> {
 	 * <p>Description: 删除取派员方法</p>  
 	 * @return
 	 */
+//	@RequiresPermissions("staff.delete")
 	public String delete() {
 		staffService.delete(ids);
 		return LIST;

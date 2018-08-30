@@ -6,7 +6,7 @@
 <struts>
 	<constant name="struts.devMode" value="false" />
 	
-<!-- 	<constant name="struts.objectFactory" value="spring"></constant> -->
+<!-- <constant name="struts.objectFactory" value="spring"></constant> -->
 	
 	<package name="basicstruts2" extends="struts-default">
 	
@@ -28,7 +28,14 @@
 		<!-- 配置全局结果集 -->
 		<global-results>
 			<result name="login">/login.jsp</result>
+			<result name="unauthorized">/unauthorized.jsp</result>
 		</global-results>
+		
+		<!-- 配置全局异常 -->
+		<global-exception-mappings>
+			<exception-mapping result="unauthorized" 
+				exception="org.apache.shiro.authz.UnauthorizedException"></exception-mapping>
+		</global-exception-mappings>
 		
 		<!-- 需要进行权限控制的页面访问 -->
 		<action name="page_*_*">
@@ -39,6 +46,8 @@
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="login">/login.jsp</result>
 			<result name="home">/index.jsp</result>
+			<result name="list">/WEB-INF/pages/admin/userlist.jsp</result>
+			<result name="edit">/WEB-INF/pages/admin/user_edit.jsp</result>
 		</action>
 		
 		<!-- 取派员管理 -->
@@ -59,6 +68,28 @@
 		<!-- 管理定区、调度排班 -->
 		<action name="decidedzoneAction_*" class="decidedzoneAction" method="{1}">
 			<result name="list">/WEB-INF/pages/base/decidedzone.jsp</result>
+		</action>
+		
+		<!-- 业务通知单管理 -->
+		<action name="noticebillAction_*" class="noticebillAction" method="{1}">
+			<result name="noticebill_add">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+		</action>
+		
+		<!-- 工作单管理 -->
+		<action name="workordermanageAction_*" class="workordermanageAction" method="{1}">
+			
+		</action>
+		
+		<!-- 权限管理 -->
+		<action name="functionAction_*" class="functionAction" method="{1}">
+			<result name="list">/WEB-INF/pages/admin/function.jsp</result>
+			<result name="edit">/WEB-INF/pages/admin/function_edit.jsp</result>
+		</action>
+		
+		<!-- 角色管理 -->
+		<action name="roleAction_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/pages/admin/role.jsp</result>
+			<result name="edit">/WEB-INF/pages/admin/role_edit.jsp</result>
 		</action>
 	</package>
 

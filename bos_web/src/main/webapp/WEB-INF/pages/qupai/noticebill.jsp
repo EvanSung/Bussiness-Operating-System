@@ -112,7 +112,7 @@
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url :  "",
+			url :  "${pageContext.request.contextPath }/noticebillAction_findAllWorkbill.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow

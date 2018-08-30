@@ -37,6 +37,32 @@
 				$('#noticebillForm').submit();
 			}
 		});
+		
+		//页面加载完成后，为手机号输入框绑定离焦事件
+		$("input[name=telephone]").blur(function(){
+			//获取页面输入的手机号
+			var telephone = this.value;
+			var url_1 = "${pageContext.request.contextPath }/noticebillAction_findCustomerByTelephone.action";
+			//发送ajax请求，请求Action，在Action中远程掉调用crm服务，获取客户信息，用于页面回显
+			$.post(url_1, {"telephone":telephone}, function(data){
+				if(data != null){
+					//查询到了客户信息，可以进行页面回显
+					var customerId = data.id;
+					var customerName = data.name;
+					var address = data.address;
+					$("input[name=customerId]").val(customerId);
+					$("input[name=customerName]").val(customerName);
+					$("input[name=delegater]").val(customerName);
+					$("input[name=pickaddress]").val(address);
+				}else{
+					//没有查询到客户信息，不能进行页面回显
+					$("input[name=customerId]").val("");
+					$("input[name=customerName]").val("");
+					$("input[name=delegater]").val("");
+					$("input[name=pickaddress]").val("");
+				}
+			});
+		});
 	});
 </script>
 </head>
@@ -51,7 +77,7 @@
 		</div>
 	</div>
 	<div region="center" style="overflow:auto;padding:5px;" border="false">
-		<form id="noticebillForm" action="" method="post">
+		<form id="noticebillForm" action="${pageContext.request.contextPath }/noticebillAction_add.action" method="post">
 			<table class="table-edit" width="95%" align="center">
 				<tr class="title">
 					<td colspan="4">客户信息</td>
