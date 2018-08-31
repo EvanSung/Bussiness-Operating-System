@@ -71,5 +71,12 @@ public interface ISubareaService {
 	 */
 	public List<Subarea> findListByDecidedzoneId(String decidedzoneId);
 
+	/**
+	 * <p>Title: saveBatch</p>  
+	 * <p>Description: 分区数据批量保存</p>  
+	 * @param subareaList
+	 */
+	public void saveBatch(List<Subarea> subareaList);
+
 
 }

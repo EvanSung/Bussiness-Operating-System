@@ -75,4 +75,11 @@ public class SubareaServiceImpl implements ISubareaService {
 		return subareaDao.findByCriteria(detachedCriteria);
 	}
 
+	@Override
+	public void saveBatch(List<Subarea> subareaList) {
+		for(Subarea subarea : subareaList) {
+			subareaDao.saveOrUpdate(subarea);
+		}
+	}
+
 }

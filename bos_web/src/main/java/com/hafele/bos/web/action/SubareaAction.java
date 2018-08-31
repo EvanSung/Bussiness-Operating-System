@@ -1,6 +1,10 @@
 package com.hafele.bos.web.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -9,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -37,6 +42,9 @@ public class SubareaAction extends BaseAction<Subarea> {
 	 */
 	private static final long serialVersionUID = -7251431507689259093L;
 	
+	//属性驱动，接收上传的文件
+	private File subareaFile;
+	
 	//分区ids
 	private String ids;
 	
@@ -45,6 +53,10 @@ public class SubareaAction extends BaseAction<Subarea> {
 
 	public void setDecidedzoneId(String decidedzoneId) {
 		this.decidedzoneId = decidedzoneId;
+	}
+
+	public void setSubareaFile(File subareaFile) {
+		this.subareaFile = subareaFile;
 	}
 
 	public String getIds() {
@@ -148,6 +160,41 @@ public class SubareaAction extends BaseAction<Subarea> {
 		
 		subareaService.update(subarea);
 		return LIST;
+	}
+	
+	/**
+	 * <p>Title: importXls</p>  
+	 * <p>Description: 文件导入数据方法</p>  
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public String importXls() throws FileNotFoundException, IOException {
+		List<Subarea> subareaList = new ArrayList<Subarea>();
+		//使用POI解析Excel文件
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(subareaFile));
+		//根据名称获得指定Sheet对象
+		HSSFSheet hssfSheet = workbook.getSheet("Sheet1");
+		for (Row row : hssfSheet) {
+			int rowNum = row.getRowNum();
+			if(rowNum == 0){
+				continue;
+			}
+			String id = row.getCell(0).getStringCellValue();
+			String addresskey = row.getCell(1).getStringCellValue();
+			String startnum = row.getCell(2).getStringCellValue();
+			String endnum = row.getCell(3).getStringCellValue();
+			String single = row.getCell(4).getStringCellValue();
+			String position = row.getCell(5).getStringCellValue();
+			
+			//包装一个分区对象
+			Subarea subarea = new Subarea(id,null,null,addresskey,startnum,endnum,single,position);
+			
+			subareaList.add(subarea);
+		}
+		//批量保存
+		subareaService.saveBatch(subareaList);
+		return NONE;
 	}
 	
 	/**

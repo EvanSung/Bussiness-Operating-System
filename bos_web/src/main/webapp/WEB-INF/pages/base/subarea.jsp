@@ -26,6 +26,7 @@
 <script
 	src="${pageContext.request.contextPath }/js/easyui/locale/easyui-lang-zh_CN.js"
 	type="text/javascript"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.ocupload-1.1.2.js"></script>
 <script type="text/javascript">
 	function doAdd(){
 		$('#addSubareaWindow').window("open");
@@ -85,10 +86,6 @@
 		window.location.href="${pageContext.request.contextPath }/subareaAction_exportXls.action";
 	}
 	
-	function doImport(){
-		alert("导入");
-	}
-	
 	//工具栏
 	var toolbar = [ {
 		id : 'button-search',	
@@ -113,8 +110,7 @@
 	},{
 		id : 'button-import',
 		text : '导入',
-		iconCls : 'icon-redo',
-		handler : doImport
+		iconCls : 'icon-redo'
 	},{
 		id : 'button-export',
 		text : '导出',
@@ -203,6 +199,12 @@
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
+		});
+		
+		//页面加载完成后，调用OCUpload插件的方法
+		$("#button-import").upload({
+			action:'${pageContext.request.contextPath }/subareaAction_importXls.action',
+			name:'subareaFile'
 		});
 		
 		// 添加分区

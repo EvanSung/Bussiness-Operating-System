@@ -119,7 +119,7 @@
 					<tr>
 						<td>父功能点</td>
 						<td>
-							<input name="parentFunction.id" class="easyui-combobox" required="true" data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/functionAction_listajaxParentNode.action'"/>
+							<input name="parentFunction.id" class="easyui-combobox" data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/functionAction_listajaxParentNode.action'"/>
 						</td>
 					</tr>
 					<tr>
